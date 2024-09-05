@@ -16,3 +16,4 @@ numba==0.60.0
 jax[cuda]>=0.4.31
 imageio
 jaxopt
+seaborn==0.13.2
