@@ -54,8 +54,7 @@ def parse_args():
     group1.add_argument('--test_size', default=0.15, type=float, help='testing percentage size (whole data)')
 
     group2 = parser.add_argument_group('AL', 'Active Learning information')
-    group2.add_argument('--n_queries', default=10,type=int, help='The number of active learning cycles')
-    group2.add_argument('--query_size', default=7,type=int, help='How many datapoints to use in each query')
+    group2.add_argument('--query_perc', default=0.5,type=float, help='The percentage of the poool to use')
     group2.add_argument('--num_trials', default=25,type=int, help='Number of monte carlo trials to evaluate AL method')
 
     group3 = parser.add_argument_group('Model', 'Hyperparameters of Neural Network')
@@ -77,8 +76,6 @@ if __name__ == "__main__":
     np.random.seed(0)
 
     args = parse_args()
-
-    pprint.pprint(vars(args), width=1)
 
     tmp_save_folder = osp.join("results","temp",args.dataset)
     os.makedirs(tmp_save_folder,exist_ok=True)
@@ -114,6 +111,11 @@ if __name__ == "__main__":
         print("Test Size: ",data_dict['test'][0].shape)
         print("Pool Size: ",data_dict['pool'][0].shape)
 
+        args.n_queries  = int(np.floor(args.query_perc * data_dict['pool'][0].shape[0]))
+        args.query_size = 1
+
+        pprint.pprint(vars(args), width=1)
+
         # ------------------- BASELINE MODEL ------------------------- #
 
         args.query_method_name = None
@@ -132,11 +134,12 @@ if __name__ == "__main__":
 
         # a dictionary of the acquisition functions to be used for selecting the new data points for the oracle to label
         uncertainty_dict = {
-                    'entropy': entropy,
-                    'max_model_change':max_model_change,
-                    'fivr': fisher_information_variance_reduction,
-                    'error_reduction': error_reduction,
-                    'max_error_reduction': max_error_reduction,
+        'random': random_partition,
+        'entropy': entropy,
+        'error_reduction': error_reduction,
+        'max_error_reduction': max_error_reduction,
+        'fivr': fisher_information_variance_reduction,
+        'max_model_change': max_model_change,
         }
 
         # a score matrix of dim ->  # acq methods x # mc trials x # al rounds + 1)
