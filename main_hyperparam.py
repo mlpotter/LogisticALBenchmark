@@ -71,8 +71,6 @@ if __name__ == "__main__":
 
     args = parse_args()
 
-    pprint.pprint(vars(args), width=1)
-
     save_folder = osp.join(args.result_path,args.dataset,args.query_method_name,f"lam_{args.lam}")
     os.makedirs(save_folder,exist_ok=True)
 
@@ -107,6 +105,8 @@ if __name__ == "__main__":
 
         args.n_queries  = int(np.floor(args.query_perc * data_dict['pool'][0].shape[0]))
         args.query_size = 1
+
+        pprint.pprint(vars(args), width=1)
 
         # ------------------- BASELINE MODEL ------------------------- #
         query_method_name = deepcopy(args.query_method_name)
