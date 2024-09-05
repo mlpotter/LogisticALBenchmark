@@ -103,6 +103,104 @@ def load_data(dataset="mnist"):
         return np.asarray(X.astype(np.float64)), np.asarray(y.astype(np.int64).reshape(-1, 1))
 
 
+    elif dataset == "synth1":
+        N = 200
+        mu1 = np.array([1,1])
+        mu2 = np.array([-1,-1])
+        cov1 = np.eye(2)
+        cov2 = np.eye(2)
+        X1 = np.random.multivariate_normal(mu1,cov1,N)
+        X2 = np.random.multivariate_normal(mu2,cov2,N)
+        y1 = np.zeros((N,1))
+        y2 = np.ones((N,1))
+
+        X = np.vstack((X1,X2))
+        y = np.vstack((y1,y2))
+
+        # X = std_scaler.fit_transform(X)
+
+
+        import matplotlib.pyplot as plt
+        plt.figure()
+        plt.scatter(X[:, 0], X[:, 1], c=y,marker='.')
+        plt.show()
+
+
+        return np.asarray(X.astype(np.float64)), np.asarray(y.astype(np.int64).reshape(-1, 1))
+    
+    elif dataset == "synth2":
+        N_middle = 150
+        mu1 = np.array([0,4])
+        mu2 = np.array([0,-4])
+
+        cov1 = np.array([[2,0],[0,1]])
+        cov2 = np.array([[2,0],[0,1]])
+
+        X2_middle = np.random.multivariate_normal(mu1,cov1,N_middle)
+        X1_middle = np.random.multivariate_normal(mu2,cov2,N_middle)
+
+        N_other=25
+        mu_br = np.array([8.5,-7.5])
+        mu_tr = np.array([8.5,7.5])
+
+        X1_br = np.random.multivariate_normal(mu_br,cov1,N_other)
+        X1_tr = np.random.multivariate_normal(mu_tr,cov1,N_other)
+
+        mu_bl = np.array([-8.5,-7.5])
+        mu_tl = np.array([-8.5,7.5])
+
+        X2_bl = np.random.multivariate_normal(mu_bl,cov2,N_other)
+        X2_tl = np.random.multivariate_normal(mu_tl,cov2,N_other)
+
+
+        y1 = np.zeros((N_middle+2*N_other,1))
+        y2 = np.ones((N_middle+2*N_other,1))
+
+        X = np.vstack((X1_middle,X1_tr,X1_br,X2_middle,X2_tl,X2_bl))
+        y = np.vstack((y1,y2))
+
+        X = std_scaler.fit_transform(X)
+
+        #
+        # import matplotlib.pyplot as plt
+        # plt.figure()
+        # plt.scatter(X[:, 0], X[:, 1], c=y,marker='.')
+        # plt.show()
+        return np.asarray(X.astype(np.float64)), np.asarray(y.astype(np.int64).reshape(-1, 1))
+    
+    elif dataset == "synth3":
+        N1 = 134
+        N2 = 133
+        N3 = 133
+
+        mu1 = np.array([1.5,1.5])
+        mu2 = np.array([1,-1])
+        mu3 = np.array([-1.75,-1])
+
+        cov1 = np.array([[1,-0.8],[-.8,1]])
+        cov2 = np.array([[1,0.8],[.8,1]])
+        cov3 = np.array([[1,-0.8],[-.8,1]])
+
+        X1 = np.random.multivariate_normal(mu1,cov1,N1)
+        X2 = np.random.multivariate_normal(mu2,cov2,N2)
+        X3 = np.random.multivariate_normal(mu3,cov3,N3)
+
+        y1 = np.zeros((N1+N3,1))
+        y2 = np.ones((N2,1))
+
+        X = np.vstack((X1,X3,X2))
+        y = np.vstack((y1,y2))
+
+        X = std_scaler.fit_transform(X)
+
+
+        import matplotlib.pyplot as plt
+        plt.figure()
+        plt.scatter(X[:, 0], X[:, 1], c=y,marker='.')
+        plt.show()
+
+        return np.asarray(X.astype(np.float64)), np.asarray(y.astype(np.int64).reshape(-1, 1))
+
 
     else:
         raise Exception(f"{dataset} Not a valid dataset choice.")

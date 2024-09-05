@@ -131,6 +131,8 @@ def fisher_information_variance_reduction(model,X_L,y_L,X_U,y_U,n_instances=1,**
         # sigma_i * (1-sigma_i) * x_i x_i^T
         I_U = I_U + np.outer(X_U[i,:],X_U[i,:])*pY_given_L[i,:].prod(axis=-1)
 
+    I_U = 1/N_U * I_U
+
     # write the computation of I_U in vectorized form
     # I_U = kwargs['lam'] * np.eye(F) + (X_U.T * pY_given_L.prod(axis=-1)).dot(X_U)
 
