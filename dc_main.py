@@ -59,7 +59,7 @@ if __name__ == "__main__":
     query_methods = ['entropy','max_model_change','fivr','error_reduction','max_error_reduction']
     datasets =  ["ionosphere","user_knowledge","heart_disease","haberman","breast_cancer","parkinsons","acute","vehicle","pima","planning","sonar","diabetes"]
     lam = 0.01
-    n_queries = 100
+    query_perc = 0.7
 
 
     experiments = []
@@ -68,8 +68,7 @@ if __name__ == "__main__":
         for dataset in datasets:
             experiments.append(f"--dataset={dataset} "
                            f"--query_method_name={query_method} "
-                           f"--n_queries={n_queries} "
-                           f"--query_size=1 "
+                           f"--query_perc={query_perc} "
                            f"--num_trials=20 "
                            f"--n_initial=2 "
                            f"--test_size=0.2 "

@@ -47,8 +47,7 @@ def parse_args():
 
     group2 = parser.add_argument_group('AL', 'Active Learning information')
     group2.add_argument('--query_method_name', default='two_step_max',type=str, help='The acquisitionn function choice')
-    group2.add_argument('--n_queries', default=10,type=int, help='The number of active learning cycles')
-    group2.add_argument('--query_size', default=7,type=int, help='How many datapoints to use in each query')
+    group2.add_argument('--query_perc', default=0.5,type=float, help='The percentage of the poool to use')
     group2.add_argument('--num_trials', default=25,type=int, help='Number of monte carlo trials to evaluate AL method')
 
     group3 = parser.add_argument_group('Model', 'Hyperparameters of Neural Network')
@@ -106,7 +105,8 @@ if __name__ == "__main__":
         print("Test Size: ",data_dict['test'][0].shape)
         print("Pool Size: ",data_dict['pool'][0].shape)
 
-        args.n_queries  = min(args.n_queries,data_dict['pool'][0].shape[0]//args.query_size)
+        args.n_queries  = int(np.floor(args.query_perc * data_dict['pool'][0].shape[0]))
+        args.query_size = 1
 
         # ------------------- BASELINE MODEL ------------------------- #
         query_method_name = deepcopy(args.query_method_name)
