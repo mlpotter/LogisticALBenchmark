@@ -1,6 +1,17 @@
 import numpy as np
 from scipy.stats import entropy as entr
 
+
+# UNIFORM SAMPLER
+def random_partition(model,X_L,y_L,X_U,y_U,n_instances=1,**kwargs):
+    """"
+    random partition acquisition function
+    """
+    # random sampling acquisition function...
+    N_U = X_U.shape[0]
+    idx = np.random.choice(N_U, n_instances)
+    return idx
+
 def entropy(model,X_L,y_L,X_U,y_U,n_instances=1,**kwargs):
     """
     Entropy acquisition function

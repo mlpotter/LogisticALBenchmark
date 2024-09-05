@@ -129,6 +129,7 @@ if __name__ == "__main__":
 
         # a dictionary of the acquisition functions to be used for selecting the new data points for the oracle to label
         uncertainty_dict = {
+                    'random': random_partition,
                     'entropy': entropy,
                     'max_model_change':max_model_change,
                     'fivr': fisher_information_variance_reduction,
