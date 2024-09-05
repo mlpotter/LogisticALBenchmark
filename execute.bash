@@ -26,5 +26,4 @@ else
 fi
 
 source activate modal_env
-git checkout acq_speed
 srun $1
