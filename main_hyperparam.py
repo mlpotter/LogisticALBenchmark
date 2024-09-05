@@ -81,6 +81,8 @@ if __name__ == "__main__":
     # context manager for mlflow or Null context manager if not tracking
     ctx = mlflow.start_run(run_name=f"{args.dataset}") if args.mlflow_track else contextlib.suppress()
 
+    args.model_template = LogisticRegression
+
     with (ctx):
         # random seeds to use for each monte carlo realization of AL experiment
         seeds = np.random.randint(0,1000,args.num_trials)
@@ -202,6 +204,8 @@ if __name__ == "__main__":
 
         if args.mlflow_track:
             # ---------------- MLFLOW LOGGING --------------------- #
+            args.model_template = None
+
             # log all the argparse arguments (because why not?)
             mlflow.log_params(vars(args))
             mlflow.log_metrics({"accuracy_baseline": baseline_accuracy,

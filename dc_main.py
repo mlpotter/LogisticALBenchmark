@@ -56,7 +56,7 @@ if __name__ == "__main__":
     #  set to true if you do not want to run the experiments again when results exist
     check_if_completed = args.check_if_completed
 
-    query_methods = ['entropy','max_model_change','fivr','error_reduction','max_error_reduction']
+    query_methods = ['error_reduction','entropy','max_model_change','fivr','max_error_reduction']
     datasets =  ["ionosphere","user_knowledge","heart_disease","haberman","breast_cancer","parkinsons","acute","vehicle","pima","planning","sonar","diabetes"]
     lam = 0.01
     query_perc = 0.7
