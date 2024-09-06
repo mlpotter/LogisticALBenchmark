@@ -59,7 +59,7 @@ if __name__ == "__main__":
     query_methods = ['random','error_reduction','entropy','max_model_change','fivr','max_error_reduction']
     datasets =  ["ionosphere","user_knowledge","heart_disease","haberman","breast_cancer","parkinsons","acute","vehicle","pima","planning","sonar","diabetes"]
     lam = 0.01
-    query_perc = 0.2
+    query_perc = 0.5
 
 
     experiments = []
