@@ -136,8 +136,8 @@ if __name__ == "__main__":
         uncertainty_dict = {
         'random': random_partition,
         'entropy': entropy,
-        # 'error_reduction': error_reduction,
-        # 'max_error_reduction': max_error_reduction,
+        'error_reduction': error_reduction,
+        'max_error_reduction': max_error_reduction,
         'fivr': fisher_information_variance_reduction,
         'max_model_change': max_model_change,
         }

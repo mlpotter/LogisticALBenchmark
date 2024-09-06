@@ -85,7 +85,7 @@ def max_error_reduction(model,X_L,y_L,X_U,y_U,n_instances=1,**kwargs):
 
         model_L_plus.fit(np.vstack((X_L,x)),np.vstack((y_L,y)))
 
-        scores[i] =  entr(model_L_plus.predict_proba(X_U),axis=-1).sum()
+        scores[i] = entr(model_L_plus.predict_proba(X_U),axis=-1).sum()
 
     # take the minimum of the expected error
     scores = -scores
@@ -117,7 +117,6 @@ def fisher_information_variance_reduction(model,X_L,y_L,X_U,y_U,n_instances=1,**
     """
     Max Error reduction acquisition function
     """
-    model_template = kwargs['model_template']
 
     N_U,F = X_U.shape
 
