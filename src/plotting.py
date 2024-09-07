@@ -27,7 +27,7 @@ def plot_confidence_interval(x, y, ax, color="r", label="_nolegend_"):
     # ax.fill_between(x, np.clip(y_mu - ci,0,1), np.clip(y_mu + ci,0,1), color=color, alpha=.4)
     x_repeated = np.tile(x,y.shape[0])
     y_flat = y.flatten()
-    sns.lineplot(x=x_repeated, y=y_flat, errorbar='sd',ax=ax,color=color,label=label)  # ci='sd' uses standard deviation for confidence intervals
+    sns.lineplot(x=x_repeated, y=y_flat, errorbar=('se',2),ax=ax,color=color,label=label)  # ci='sd' uses standard deviation for confidence intervals
 
 
 def plot_times(time_matrix,uncertainty_dict,args):
