@@ -62,6 +62,73 @@ def error_reduction(model,X_L,y_L,X_U,y_U,n_instances=1,**kwargs):
 
     return idx
 
+
+def two_error_reduction(model,X_L,y_L,X_U,y_U,n_instances=1,**kwargs):
+    """
+    Error reduction acquisition function
+    """
+    model_template = kwargs['model_template']
+
+    N,F = X_U.shape
+
+    pY_given_L = model.predict_proba(X_U)
+
+    model_L_plus = model_template(C=1/kwargs['lam'],random_state=123,n_jobs=None)
+    model_L_plusplus = model_template(C=1/kwargs['lam'],random_state=123,n_jobs=None)
+
+    scores = np.zeros((N,N))
+
+    from time import time
+
+    # iterate through candidate samples
+    for i in range(N):
+        xi = X_U[i,:]
+        xi = xi.reshape(1,F)
+        pyi_given_L = pY_given_L[i,:]
+
+        # iterate through next candidate sample
+        for j in range(N):
+
+            # skip if next candidate sample is same as current...
+            if j == i:
+                scores[i,j] = np.inf
+                continue
+
+            xj = X_U[j,:]
+            xj = xj.reshape(1,F)
+            pyj_given_L = pY_given_L[j,:]
+
+            score_temp = 0
+
+            for ci in range(2):
+                yi = np.array([[ci]])
+
+                L_plus = np.vstack((X_L,xi))
+                y_plus = np.vstack((y_L,yi))
+
+                model_L_plus.fit(L_plus,y_plus)
+
+                for cj in range(2):
+                    yj = np.array([[cj]])
+
+                    L_plusplus = np.vstack((L_plus, xj))
+                    y_plusplus = np.vstack((y_plus, yj))
+
+                    model_L_plusplus.fit(L_plusplus,y_plusplus)
+
+                    score_temp = score_temp +  pyi_given_L[ci] * pyj_given_L[cj] * entr(model_L_plusplus.predict_proba(X_U),axis=-1).sum()
+
+                # score_temp = score_temp +  py_given_L[ci] * entr(model_L_plus.predict_proba(X_U),axis=-1).sum()
+
+            scores[i,j] = score_temp
+
+    # take the minimum of the expected error
+    scores = -scores
+
+    idx = np.argpartition(scores, -n_instances)[-n_instances:]
+
+    return idx
+
 def max_error_reduction(model,X_L,y_L,X_U,y_U,n_instances=1,**kwargs):
     """
     Max Error reduction acquisition function

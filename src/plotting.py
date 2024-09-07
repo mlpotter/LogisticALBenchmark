@@ -15,15 +15,19 @@ import os.path as osp
 import os
 from copy import deepcopy
 from tqdm import tqdm
+import seaborn as sns
 
 
 def plot_confidence_interval(x, y, ax, color="r", label="_nolegend_"):
     # some confidence interval
-    ci = 1.96 * np.std(y, axis=0) / np.sqrt(y.shape[0])
+    # ci = 1.96 * np.std(y, axis=0) / np.sqrt(y.shape[0])
 
-    y_mu = np.mean(y, axis=0)
-    ax.plot(x, y_mu, color=color, label=label)
-    ax.fill_between(x, np.clip(y_mu - ci,0,1), np.clip(y_mu + ci,0,1), color=color, alpha=.4)
+    # y_mu = np.mean(y, axis=0)
+    # ax.plot(x, y_mu, color=color, label=label)
+    # ax.fill_between(x, np.clip(y_mu - ci,0,1), np.clip(y_mu + ci,0,1), color=color, alpha=.4)
+    x_repeated = np.tile(x,y.shape[0])
+    y_flat = y.flatten()
+    sns.lineplot(x=x_repeated, y=y_flat, errorbar='sd',ax=ax,color=color,label=label)  # ci='sd' uses standard deviation for confidence intervals
 
 
 def plot_times(time_matrix,uncertainty_dict,args):

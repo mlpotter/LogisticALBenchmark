@@ -134,6 +134,7 @@ if __name__ == "__main__":
 
         # a dictionary of the acquisition functions to be used for selecting the new data points for the oracle to label
         uncertainty_dict = {
+        # 'two_error_reduction': two_error_reduction,
         'random': random_partition,
         'entropy': entropy,
         'error_reduction': error_reduction,
@@ -158,8 +159,10 @@ if __name__ == "__main__":
             args.query_method_name = query_strategy
 
             # Monte carlo trials for each AL acquisition strategy
+            # pbar = tqdm(total=args.num_trials*(args.n_queries+1))
             pbar = tqdm(enumerate(seeds))
-            for idx,seed in pbar:
+
+            for idx,seed in pbar: #enumerate(seeds):
                 if idx != 0:
                     pbar.set_description("Baseline Accuracy {:.2f} , Model {} Final Accuracy: {:.2f}, ALC {:.2f}".format(baseline_accuracy,idx-1,scores_test.ravel()[-1],alc_matrix_test[idx-1]))
                 else:

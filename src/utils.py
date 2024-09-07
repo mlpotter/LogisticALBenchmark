@@ -37,6 +37,7 @@ def al_experiment(classifier, data,  query_strategy, n_queries=10, query_size=10
     X_test,y_test = data['test']
     X_pool,y_pool = data['pool']
 
+    # pbar = kwargs.get("pbar",None)
 
 
     scores_test = np.zeros(n_queries + 1)
@@ -68,7 +69,12 @@ def al_experiment(classifier, data,  query_strategy, n_queries=10, query_size=10
         X_pool = np.delete(X_pool, query_idx, axis=0)
         y_pool = np.delete(y_pool, query_idx, axis=0)
 
-        scores_test[idx + 1] = classifier.score(X_test, y_test)
+        score_i =  classifier.score(X_test, y_test)
+        scores_test[idx + 1] = float(score_i)
+
+        # if pbar is not None:
+        #     pbar.set_description("Model {} Final Accuracy: {:.2f}".format(idx,score_i))
+        #     pbar.update(1)
 
         cycle_end  = time.time()
 
