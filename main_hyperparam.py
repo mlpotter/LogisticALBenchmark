@@ -217,6 +217,7 @@ if __name__ == "__main__":
             np.save(osp.join(save_folder,"score_matrix_test.npy"),score_matrix_test)
             np.save(osp.join(save_folder,"alc_matrix_test.npy"),alc_matrix_test)
             np.save(osp.join(save_folder,"matrix_time.npy"),time_matrix)
+            np.save(osp.join(save_folder,"data_sizes.npy"),data_sizes)
 
             mlflow.log_text(np.array2string(seeds, separator=","), "seeds.txt")
 
